@@ -1,0 +1,25 @@
+<%- include('templates/navbar') %>
+<%- include('templates/head') %>
+<div class="container">
+  <h1 class="text-center">Daftar Akun</h1>
+
+  <form action="/auth/register" method="post">
+    <div class="form-floating mb-2">
+      <input type="text" name="full_name" id="full_name" class="form-control" value="" placeholder="Nama Lengkap">
+      <label for="full_name">Nama Lengkap</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="email" name="email" id="email" class="form-control" value="" placeholder="foo@example.com">
+      <label for="email">Email</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="password" name="password" id="password" class="form-control" value="" placeholder="kata Sandi">
+      <label for="password">Kata Sandi</label>
+    </div>
+    <button type="submit" class="btn btn-outline-success form-control">Daftar</button>
+  </form>
+  <a href="/auth/google">login with google</a>
+</div>
+<%- include('templates/foot') %>
