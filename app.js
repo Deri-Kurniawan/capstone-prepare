@@ -6,6 +6,7 @@ const path = require('path');
 const CONFIG = require('./globals/config');
 const passport = require('passport');
 const cors = require('cors');
+const { body, validationResult } = require('express-validator');
 
 require('./auth');
 
@@ -16,11 +17,11 @@ const isLoggedIn = (req, res, next) => {
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, './node_modules/bootstrap/dist')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.json());
 
 app.use(session({
-  cookie: {maxAge: new Date(Date.now() + (30 * 10000 * 1000))},
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },
   secret: 'CADLABAH',
   name: 'cadlabah-app-session',
   resave: true,
@@ -79,6 +80,16 @@ app.get('/posts/category/:type', (req, res) => {
   });
 });
 
+app.post(
+  '/auth/register',
+  body('full_name').isString(),
+  body('email').isEmail(),
+  body('password').isStrongPassword(),
+  (req, res) => {
+    console.log(validationResult(req));
+    res.end();
+});
+
 app.get('/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
 
 app.get('/google/callback', passport.authenticate('google', {
@@ -88,13 +99,12 @@ app.get('/google/callback', passport.authenticate('google', {
 
 app.get('/logout', (req, res) => {
   req.logout();
-  res.send('Logout Success');
+  res.redirect('/');
 });
 
 app.use('/', (req, res) =>{
   res.status(404).end('page not found');
 });
-
 
 // Server
 app.listen(CONFIG.SERVER_PORT, () => {
