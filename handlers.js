@@ -1,3 +1,5 @@
+const axios = require('axios').default;
+
 const homeHandler = (req, res) => {
   res.render('home', {
     title: "Home",
@@ -42,6 +44,56 @@ const logoutHandler = (req, res) => {
   res.redirect('/');
 }
 
+const registerProcessHandler = (req, res) => {
+  axios.post('https://619b71a827827600174455d9.mockapi.io/api/users', req.body);
+  axios.get('https://619b71a827827600174455d9.mockapi.io/api/users');
+  res.end();
+}
+
+const authSuccessHandler = async (req, res) => {
+  const { platform } = req.query;
+  const user = req.user || null;
+  const data = {};
+  
+  if(user !== null) {
+    data.platform = platform;
+
+    switch (platform.toLowerCase()) {
+      case 'google':
+        data.accountId = Number(user.id);
+        data.fullName = user.displayName;
+        data.email = user.email;
+        break;
+
+       case 'github':
+        data.accountId = Number(user.id);
+        data.fullName = user.displayName;
+        data.email = user._json.email;
+        break;
+    
+      default:
+        req.flash('authError', 'Opps someting went wrong! \n please try again later!');
+        res.redirect('/login');
+        break;
+    }
+
+    const { getUsers } = require('./data/usersDataSource');
+    const API_ENDPOINT = require('./globals/api-endpoint');
+
+    getUsers((res) => {
+      const userExists = res.find((user) => Number(user.accountId) === Number(data.accountId));
+      if(!userExists) {
+        axios.post(API_ENDPOINT.postUser(), data);
+      }
+    });
+
+  } else {
+    res.redirect('/login');
+  }
+  
+  res.redirect('/');
+}
+
 module.exports = {
   homeHandler,
   loginHandler,
@@ -50,4 +102,6 @@ module.exports = {
   postsCategoryHandler,
   postsCategoryTypeHandler,
   logoutHandler,
+  registerProcessHandler,
+  authSuccessHandler,
 };

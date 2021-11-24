@@ -6,7 +6,9 @@ const {
   postsHandler,
   postsCategoryHandler,
   postsCategoryTypeHandler,
+  registerProcessHandler,
   logoutHandler,
+  authSuccessHandler,
 } = require('./handlers');
 const userMiddleware = require('./middleware/userMidldeware');
 
@@ -21,13 +23,14 @@ const routes = {
     app.get('/posts/category/:type', postsCategoryTypeHandler);
     app.get('/auth/google', google.request);
     app.get('/auth/github', github.request);
-    app.get('/auth/twitter', twitter.request);
     app.get('/google/callback', google.verify);
     app.get('/github/callback', github.verify);
-    app.get('/twitter/callback', twitter.verify);
     app.get('/logout', logoutHandler);
+    app.get('/auth/success', authSuccessHandler);
 
-    app.use('/', (req, res) =>{
+    app.post('/register', registerProcessHandler);
+
+    app.use('*', (req, res) =>{
       res.status(404).end('page not found');
     });
   }

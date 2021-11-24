@@ -3,10 +3,10 @@
 <div class="container">
   <h1 class="text-center">Daftar Akun</h1>
 
-  <form action="/auth/register" method="post">
+  <form action="/register" method="post">
     <div class="form-floating mb-2">
-      <input type="text" name="full_name" id="full_name" class="form-control" value="" placeholder="Nama Lengkap">
-      <label for="full_name">Nama Lengkap</label>
+      <input type="text" name="fullName" id="fullName" class="form-control" value="" placeholder="Nama Lengkap">
+      <label for="fullName">Nama Lengkap</label>
     </div>
 
     <div class="form-floating mb-2">
@@ -22,7 +22,6 @@
   </form>
 
   <a href="/auth/google" class="btn btn-outline-success">Lanjutkan Dengan Google</a>
-  <a href="/auth/twitter" class="btn btn-outline-primary">Lanjutkan Dengan Twitter</a>
   <a href="/auth/github" class="btn btn-outline-dark">Lanjutkan Dengan Github</a>
 </div>
 <%- include('templates/foot') %>
