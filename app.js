@@ -95,7 +95,7 @@ app.get('/auth/github', passport.authenticate('github', {scope: ['email', 'profi
 app.get('/auth/twitter', passport.authenticate('twitter', {scope: ['email', 'profile']}));
 
 app.get('/google/callback', passport.authenticate('google', {
-  successRedirect: '/auth/google/success',
+  successRedirect: '/',
   failureRedirect: '/login'
 }));
 
@@ -109,12 +109,7 @@ app.get('/twitter/callback', passport.authenticate('twitter', {
   failureRedirect: '/login',
 }));
 
-app.get('/auth/google/success', (req, res) => {
-  res.redirect('/');
-});
-
 app.get('/logout', (req, res) => {
-  // req.session.destroy();
   req.logout();
   res.redirect('/');
 });
@@ -123,7 +118,6 @@ app.use('/', (req, res) =>{
   res.status(404).end('page not found');
 });
 
-// Server
 app.listen(CONFIG.SERVER_PORT, () => {
   console.log(`server serve on http://localhost:${CONFIG.SERVER_PORT}`);
 });
