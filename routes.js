@@ -8,7 +8,7 @@ const {
   postsCategoryTypeHandler,
   registerProcessHandler,
   logoutHandler,
-  authSuccessHandler,
+  authPlatformSuccessHandler,
 } = require('./handlers');
 const userMiddleware = require('./middleware/userMidldeware');
 
@@ -26,7 +26,7 @@ const routes = {
     app.get('/google/callback', google.verify);
     app.get('/github/callback', github.verify);
     app.get('/logout', logoutHandler);
-    app.get('/auth/success', authSuccessHandler);
+    app.get('/auth/success', authPlatformSuccessHandler);
 
     app.post('/register', registerProcessHandler);
 

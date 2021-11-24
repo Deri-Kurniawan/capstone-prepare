@@ -1,6 +1,9 @@
 const axios = require('axios').default;
+const { getUsers } = require('./data/usersDataSource');
+const API_ENDPOINT = require('./globals/api-endpoint');
 
 const homeHandler = (req, res) => {
+  
   res.render('home', {
     title: "Home",
   });
@@ -50,25 +53,30 @@ const registerProcessHandler = (req, res) => {
   res.end();
 }
 
-const authSuccessHandler = async (req, res) => {
+const authPlatformSuccessHandler = async (req, res) => {
   const { platform } = req.query;
   const user = req.user || null;
-  const data = {};
+  const setUser = {
+    accountId: null,
+    platform: null,
+    fullName: null,
+    email: null,
+    createdAt: null,
+  };
   
   if(user !== null) {
-    data.platform = platform;
+    setUser.accountId = Number(user.id);
+    setUser.platform = platform;
+    setUser.fullName = user.displayName;
+    setUser.createdAt = Date.now();
 
     switch (platform.toLowerCase()) {
       case 'google':
-        data.accountId = Number(user.id);
-        data.fullName = user.displayName;
-        data.email = user.email;
+        setUser.email = user.email;
         break;
 
        case 'github':
-        data.accountId = Number(user.id);
-        data.fullName = user.displayName;
-        data.email = user._json.email;
+        setUser.email = user._json.email;
         break;
     
       default:
@@ -77,13 +85,10 @@ const authSuccessHandler = async (req, res) => {
         break;
     }
 
-    const { getUsers } = require('./data/usersDataSource');
-    const API_ENDPOINT = require('./globals/api-endpoint');
-
     getUsers((res) => {
-      const userExists = res.find((user) => Number(user.accountId) === Number(data.accountId));
+      const userExists = res.find((user) => Number(user.accountId) === Number(setUser.accountId));
       if(!userExists) {
-        axios.post(API_ENDPOINT.postUser(), data);
+        axios.post(API_ENDPOINT.postUser(), setUser);
       }
     });
 
@@ -103,5 +108,5 @@ module.exports = {
   postsCategoryTypeHandler,
   logoutHandler,
   registerProcessHandler,
-  authSuccessHandler,
+  authPlatformSuccessHandler,
 };
