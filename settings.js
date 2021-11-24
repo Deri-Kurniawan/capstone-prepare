@@ -6,10 +6,7 @@ const passport = require('passport');
 const time = require('./helpers/timeHelper');
 
 const settings = {
-  init: ({
-     appInstance: app,
-     expressInstance: express 
-    }) => {
+  init: ({ app, express }) => {
 
     app.set('view engine', 'ejs');
     app.set('trust proxy', 1);

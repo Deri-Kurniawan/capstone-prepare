@@ -5,10 +5,7 @@ const routes = require('./routes');
 const settings = require('./settings');
 const server = require('./server');
 
-settings.init({
-  appInstance: app,
-  expressInstance: express
-});
+settings.init({ app, express });
 
 routes.init(app);
 server.run(app);
