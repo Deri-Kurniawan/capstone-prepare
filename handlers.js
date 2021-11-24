@@ -86,7 +86,8 @@ const authPlatformSuccessHandler = async (req, res) => {
     }
 
     getUsers((res) => {
-      const userExists = res.find((user) => Number(user.accountId) === Number(setUser.accountId));
+      const userExists = res.find((user) => (Number(user.accountId) === Number(setUser.accountId) && user.platform.toLowerCase() === setUser.platform.toLowerCase()));
+
       if(!userExists) {
         axios.post(API_ENDPOINT.postUser(), setUser);
       }
@@ -99,6 +100,10 @@ const authPlatformSuccessHandler = async (req, res) => {
   res.redirect('/');
 }
 
+const pageNotFoundHandler = (req, res) =>{
+  res.status(404).end('page not found');
+}
+
 module.exports = {
   homeHandler,
   loginHandler,
@@ -109,4 +114,5 @@ module.exports = {
   logoutHandler,
   registerProcessHandler,
   authPlatformSuccessHandler,
+  pageNotFoundHandler,
 };

@@ -20,7 +20,6 @@ passport.use(new GoogleStrategy({
     passReqToCallback   : true
   },
   (request, accessToken, refreshToken, profile, done) => {
-    console.log(profile);
     return done(null, profile);
   }
 ));
@@ -31,7 +30,6 @@ passport.use(new GitHubStrategy({
     callbackURL: `${BASE_URL}github/callback`,
   },
   (accessToken, refreshToken, profile, cb) => {
-    console.log(profile);
     return cb(null, profile);
   }
 ))
@@ -42,7 +40,6 @@ passport.use(new TwitterStrategy({
   callbackURL: `${BASE_URL}twitter/callback`,
 },
 (token, tokenSecret, profile, cb) => {
-  console.log(profile);
   return cb(null, profile);
 }
 ));

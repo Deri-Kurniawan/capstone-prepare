@@ -9,6 +9,7 @@ const {
   registerProcessHandler,
   logoutHandler,
   authPlatformSuccessHandler,
+  pageNotFoundHandler,
 } = require('./handlers');
 const userMiddleware = require('./middleware/userMidldeware');
 
@@ -30,9 +31,7 @@ const routes = {
 
     app.post('/register', registerProcessHandler);
 
-    app.use('*', (req, res) =>{
-      res.status(404).end('page not found');
-    });
+    app.use('/', pageNotFoundHandler);
   }
 }
 
