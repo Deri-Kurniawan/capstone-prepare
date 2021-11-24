@@ -35,7 +35,7 @@ app.use(passport.session());
 
 app.use(flash({sessionKeyName: 'flashMessage'}));
 
-app.get('/', (req, res) => {
+app.get('/', isLoggedIn, (req, res) => {
   res.render('home', {
     title: "Home",
   });
@@ -63,6 +63,7 @@ app.get('/register', (req, res) => {
 app.get('/posts', (req, res) => {
   res.render('posts', {
     title: "Postingan",
+    user: req.user,
   });
 });
 
@@ -89,51 +90,31 @@ app.post(
     res.end();
 });
 
-const checkUserData = (req, res, next) => {
-   const {
-     id,
-     provider,
-     displayName,
-     name,
-     email,
-     picture,
-     language,
-     _json,
-    } = req.user;
-
-    const userData = {
-      id: Number(id),
-      provider,
-      fullName: displayName,
-      name: {first: name.givenName, last: name.familyName},
-      email,
-      picture,
-      language,
-      locale: _json.locale,
-      createdAt: Date.now(),
-     };
-
-     const data = JSON.parse((fs.readFileSync('./data/test.json', {encoding: "utf-8"})));
-
-     data.push(userData);
-
-     fs.writeFileSync('./data/test.json', JSON.stringify([data]));
-
-  next();
-}
-
-app.get('/auth/google/success', checkUserData, (req, res) => {
-  res.redirect('/');
-});
-
 app.get('/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
+app.get('/auth/github', passport.authenticate('github', {scope: ['email', 'profile']}));
+app.get('/auth/twitter', passport.authenticate('twitter', {scope: ['email', 'profile']}));
 
 app.get('/google/callback', passport.authenticate('google', {
   successRedirect: '/auth/google/success',
   failureRedirect: '/login'
 }));
 
+app.get('/github/callback', passport.authenticate('github', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+}));
+
+app.get('/twitter/callback', passport.authenticate('twitter', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+}));
+
+app.get('/auth/google/success', (req, res) => {
+  res.redirect('/');
+});
+
 app.get('/logout', (req, res) => {
+  // req.session.destroy();
   req.logout();
   res.redirect('/');
 });
