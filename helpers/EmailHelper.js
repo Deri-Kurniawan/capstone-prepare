@@ -1,7 +1,6 @@
-const fs = require('fs');
 const nodemailer = require('nodemailer');
 
-class Email {
+class EmailHelper {
     constructor(host = 'smtp.gmail.com', port = 587, secure = false, user = 'cadlabahlimited@gmail.com', pass = 'cadlabah123') {
         this.transporter = nodemailer.createTransport({
             host,
@@ -29,4 +28,4 @@ class Email {
     }
 }
 
-module.exports = Email;
+module.exports = EmailHelper;

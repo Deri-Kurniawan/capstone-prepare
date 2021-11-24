@@ -1,4 +1,4 @@
-const CONFIG = require('./globals/config');
+const { BASE_URL } = require('../globals/config');
 const passport = require('passport');
 
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
@@ -16,7 +16,7 @@ const TWITTER_CONSUMER_SECRET = 'ECVEvaJYjLzWJR9TybhfkmsteG61teCz5OF1T3iSlsMyWCq
 passport.use(new GoogleStrategy({
     clientID:     GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: `${CONFIG.BASE_URL}google/callback`,
+    callbackURL: `${BASE_URL}google/callback`,
     passReqToCallback   : true
   },
   (request, accessToken, refreshToken, profile, done) => {
@@ -28,7 +28,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
     clientID: GITHUB_CLIENT_ID,
     clientSecret: GITHUB_CLIENT_SECRET,
-    callbackURL: `${CONFIG.BASE_URL}github/callback`,
+    callbackURL: `${BASE_URL}github/callback`,
   },
   (accessToken, refreshToken, profile, cb) => {
     console.log(profile);
@@ -39,7 +39,7 @@ passport.use(new GitHubStrategy({
 passport.use(new TwitterStrategy({
   consumerKey: TWITTER_CONSUMER_KEY,
   consumerSecret: TWITTER_CONSUMER_SECRET,
-  callbackURL: `${CONFIG.BASE_URL}twitter/callback`,
+  callbackURL: `${BASE_URL}twitter/callback`,
 },
 (token, tokenSecret, profile, cb) => {
   console.log(profile);
