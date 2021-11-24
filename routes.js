@@ -1,3 +1,4 @@
+const userMiddleware = require('./middleware/authLocalMidldeware');
 const { google, twitter, github } = require('./middleware/authStrategyMiddleware');
 const {
   homeHandler,
@@ -11,7 +12,7 @@ const {
   authPlatformSuccessHandler,
   pageNotFoundHandler,
 } = require('./handlers');
-const userMiddleware = require('./middleware/userMidldeware');
+const { registerProcessMiddleware } = require('./middleware/authLocalMidldeware');
 
 const routes = {
   init: (app) => {
@@ -29,7 +30,7 @@ const routes = {
     app.get('/logout', logoutHandler);
     app.get('/auth/success', authPlatformSuccessHandler);
 
-    app.post('/register', registerProcessHandler);
+    app.post('/register', registerProcessMiddleware, registerProcessHandler);
 
     app.use('/', pageNotFoundHandler);
   }

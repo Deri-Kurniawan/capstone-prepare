@@ -1,6 +1,7 @@
 const axios = require('axios').default;
 const { getUsers } = require('./data/usersDataSource');
 const API_ENDPOINT = require('./globals/api-endpoint');
+const { validationResult } = require('express-validator');
 
 const homeHandler = (req, res) => {
   
@@ -48,8 +49,7 @@ const logoutHandler = (req, res) => {
 }
 
 const registerProcessHandler = (req, res) => {
-  axios.post('https://619b71a827827600174455d9.mockapi.io/api/users', req.body);
-  axios.get('https://619b71a827827600174455d9.mockapi.io/api/users');
+  console.log(validationResult(req));
   res.end();
 }
 
