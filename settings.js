@@ -1,5 +1,5 @@
 const session = require('express-session');
-const { flash } = require('express-flash-message');
+const flash = require('express-flash');
 const cors = require('cors');
 const path = require('path');
 const passport = require('passport');
@@ -7,7 +7,6 @@ const time = require('./helpers/timeHelper');
 
 const settings = {
   init: ({ app, express }) => {
-
     app.set('view engine', 'ejs');
     app.set('trust proxy', 1);
     app.use(cors());
@@ -23,7 +22,7 @@ const settings = {
       saveUninitialized: true,
     }));
 
-    app.use(flash({ sessionKeyName: 'cadlabahFlashMessage' }));
+    app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());
   },

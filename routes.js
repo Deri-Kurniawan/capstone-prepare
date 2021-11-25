@@ -12,7 +12,7 @@ const {
   authPlatformSuccessHandler,
   pageNotFoundHandler,
 } = require('./handlers');
-const { registerProcessMiddleware } = require('./middleware/authLocalMidldeware');
+const { registerValidationMiddleWare } = require('./middleware/validationMiddleware');
 
 const routes = {
   init: (app) => {
@@ -30,7 +30,7 @@ const routes = {
     app.get('/logout', logoutHandler);
     app.get('/auth/success', authPlatformSuccessHandler);
 
-    app.post('/register', registerProcessMiddleware, registerProcessHandler);
+    app.post('/auth/register', registerValidationMiddleWare, registerProcessHandler);
 
     app.use('/', pageNotFoundHandler);
   }

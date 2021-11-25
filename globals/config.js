@@ -1,4 +1,4 @@
-const PORT = process.env.port || 5500;
+const PORT = process.env.PORT || 5500;
 
 const CONFIG = {
   BASE_URL: `http://localhost:${PORT}/`,

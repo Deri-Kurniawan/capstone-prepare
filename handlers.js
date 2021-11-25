@@ -4,9 +4,8 @@ const API_ENDPOINT = require('./globals/api-endpoint');
 const { validationResult } = require('express-validator');
 
 const homeHandler = (req, res) => {
-  
   res.render('home', {
-    title: "Home",
+    title: "Beranda",
   });
 }
 
@@ -49,8 +48,17 @@ const logoutHandler = (req, res) => {
 }
 
 const registerProcessHandler = (req, res) => {
-  console.log(validationResult(req));
-  res.end();
+  getUsers((users) => {
+    const isEmailExists = users.find((user) => (user.email === req.body.email));
+    console.log(validationResult(req));
+    if(isEmailExists) {
+      console.log('sudah ada');
+      res.redirect('/register');
+    } else {
+      console.log('belum ada');
+      res.end()
+    }
+  })
 }
 
 const authPlatformSuccessHandler = async (req, res) => {
