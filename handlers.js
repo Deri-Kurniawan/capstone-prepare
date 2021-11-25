@@ -15,12 +15,6 @@ const loginHandler = (req, res) => {
   });
 };
 
-const registerHandler = (req, res) => {
-  res.render('register', {
-    title: "Register",
-  });
-};
-
 const postsHandler = (req, res) => {
   res.render('posts', {
     title: "Postingan",
@@ -47,20 +41,6 @@ const logoutHandler = (req, res) => {
   res.redirect('/');
 }
 
-const registerProcessHandler = (req, res) => {
-  getUsers((users) => {
-    const isEmailExists = users.find((user) => (user.email === req.body.email));
-    console.log(validationResult(req));
-    if(isEmailExists) {
-      console.log('sudah ada');
-      res.redirect('/register');
-    } else {
-      console.log('belum ada');
-      res.end()
-    }
-  })
-}
-
 const authPlatformSuccessHandler = async (req, res) => {
   const { platform } = req.query;
   const user = req.user || null;
@@ -76,12 +56,16 @@ const authPlatformSuccessHandler = async (req, res) => {
     setUser.accountId = Number(user.id);
     setUser.platform = platform;
     setUser.fullName = user.displayName;
-    setUser.createdAt = Date.now();
+    setUser.createdAt = new Date().toISOString();
 
     switch (platform.toLowerCase()) {
       case 'google':
         setUser.email = user.email;
         break;
+
+        case 'twitter':
+         setUser.email = null;
+         break;
 
        case 'github':
         setUser.email = user._json.email;
@@ -115,12 +99,10 @@ const pageNotFoundHandler = (req, res) =>{
 module.exports = {
   homeHandler,
   loginHandler,
-  registerHandler,
+  logoutHandler,
   postsHandler,
   postsCategoryHandler,
   postsCategoryTypeHandler,
-  logoutHandler,
-  registerProcessHandler,
   authPlatformSuccessHandler,
   pageNotFoundHandler,
 };

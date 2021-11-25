@@ -2,21 +2,8 @@
 <%- include('templates/head') %>
 <div class="container">
   <h1 class="text-center"><%= title %></h1>
-
-  <form action="/auth/login" method="post">
-    <div class="form-floating mb-2">
-      <input type="email" name="email" id="email" class="form-control" value="" placeholder="foo@example.com">
-      <label for="email">Email</label>
-    </div>
-
-    <div class="form-floating mb-2">
-      <input type="password" name="password" id="password" class="form-control" value="" placeholder="kata Sandi">
-      <label for="password">Kata Sandi</label>
-    </div>
-    <button type="submit" class="btn btn-outline-success form-control">Login</button>
-  </form>
-
   <a href="/auth/google" class="btn btn-outline-success">Lanjutkan Dengan Google</a>
+  <a href="/auth/twitter" class="btn btn-outline-primary">Lanjutkan Dengan Twitter</a>
   <a href="/auth/github" class="btn btn-outline-dark">Lanjutkan Dengan Github</a>
 </div>
 <%- include('templates/foot') %>

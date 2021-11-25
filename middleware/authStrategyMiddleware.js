@@ -8,6 +8,13 @@ const authStrategyMiddleware = {
       failureRedirect: '/login'
     }),
   },
+  twitter: {
+    request: passport.authenticate('twitter', {scope: ['email', 'profile']}),
+    verify: passport.authenticate('twitter', {
+      successRedirect: '/auth/success?platform=twitter',
+      failureRedirect: '/login'
+    }),
+  },
   github: {
     request: passport.authenticate('github', {scope: ['email', 'profile']}),
     verify: passport.authenticate('github', {
