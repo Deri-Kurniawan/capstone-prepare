@@ -1,5 +1,6 @@
 const axios = require('axios').default;
 const { getUsers } = require('./data/usersDataSource');
+const { getPosts } = require('./data/postsDataSource');
 const API_ENDPOINT = require('./globals/api-endpoint');
 const { validationResult } = require('express-validator');
 
@@ -10,15 +11,18 @@ const homeHandler = (req, res) => {
 }
 
 const loginHandler = (req, res) => {
-  res.render('login', {
-    title: "Login",
-  });
+    res.render('login', {
+      title: "Login",
+    });
 };
 
 const postsHandler = (req, res) => {
-  res.render('posts', {
-    title: "Postingan",
-    user: req.user,
+  getPosts((posts) => {
+    const undonePosts = posts.filter((post) => (post.done === false));
+    res.render('posts', {
+      title: "Postingan",
+      posts: undonePosts,
+    });
   });
 }
 

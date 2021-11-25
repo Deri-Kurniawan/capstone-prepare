@@ -11,7 +11,8 @@ const settings = {
     app.set('trust proxy', 1);
     app.use(cors());
     app.use(express.urlencoded({ extended: true }));
-    app.use(express.static(path.join(__dirname, '/public')));
+    app.use(express.static(path.join(__dirname, '/node_modules/')));
+    app.use(express.static(path.join(__dirname, 'public')));
     app.use(express.json());
 
     app.use(session({

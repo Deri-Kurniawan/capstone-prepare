@@ -6,6 +6,7 @@ const API_ENDPOINT = {
   postUser: () => `${BASE_URL_API}users`,
   putUser: (id) => `${BASE_URL_API}users/${id}`,
   deleteUser: (id) => `${BASE_URL_API}users/${id}`,
+  getPosts: `${BASE_URL_API}posts`,
 };
 
 module.exports = API_ENDPOINT;
